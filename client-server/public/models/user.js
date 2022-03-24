@@ -83,7 +83,7 @@ class User {
                 break;
 
                 default: 
-                    this[name] = json[name];
+                    if (name.substring(0, 1) === "_") this[name] = json[name];
             }
             
 

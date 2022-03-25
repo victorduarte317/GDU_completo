@@ -267,18 +267,15 @@ class UserController {
     // pega todas as informaçoes do usuario do localstorage, faz um foreach e adiciona eles na tela
     selectAll() {
 
-        HttpRequest.get('/users').then(data=>{ // o httprequest.get vai retornar um "Promise", entao ele é tratado com then
+        HttpRequest.get('/users').then(data=>{
 
-            data.users.forEach(dataUser=>{ // Pra cada usuario, passa as informaçoes dele
+            data.users.forEach(dataUser => {
 
-                let user = new User(); // instancia User na variavel local user
-    
-                user.loadFromJSON(dataUser); // carrega os dados do usuario a partir de um JSON
-    
-                this.addLine(user); // adiciona as linhas passando a variavel user ja renderizada do JSON
-    
+                let user = new User();
+                user.loadFromJSON(dataUser);
+                this.addLine(user);
             });
-
+            
         });
 
     }
@@ -333,11 +330,14 @@ class UserController {
 
                 user.loadFromJSON(JSON.parse(tr.dataset.user)); // pegar o JSON que ta guardado dentro da tag <tr> - com dataset - e colocar no objeto user
 
-                user.remove();
+                user.remove().then(data=>{
 
-                tr.remove(); // metodo nativo, remove tr
+                    tr.remove(); // metodo nativo, remove tr
 
-                this.updateCount(); // atualiza o contador
+                    this.updateCount(); // atualiza o contador
+
+                });
+
             }
 
         });

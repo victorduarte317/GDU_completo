@@ -91,30 +91,9 @@ class User {
 
     }
 
-
     static getUsersStorage() { // como nao usa this e so retorna, pode ser static
 
-        let users = [];
-        
-        if (localStorage.getItem("users")) {
-
-            users = JSON.parse(localStorage.getItem("users")); // pega o item "users" de localstorage, trata os dados com o JSON e atribui na variavel
-        }
-        return users; // retorna variavel tratada
-    }
-
-
-    getNewID() {
-
-        let usersID = parseInt(localStorage.getItem("usersID"));
-
-        if(!usersID > 0) usersID = 0; // se o ID do usuario nao for maior que 0, ele recebe 0
-
-        usersID++; // agora ele vale 1
-
-        localStorage.setItem("usersID", usersID); // fica salvo no localStorage
-
-        return usersID; // é retornado
+        return HttpRequest.get('/users'); // retorna a promessa
 
     }
 
@@ -168,19 +147,6 @@ class User {
 
     remove() {
 
-        let users = User.getUsersStorage(); // pega todo o array de dados
-
-        users.forEach((userData, index)=>{ // forEach recebe dois parametros, os dados que estao sendo passados e a posiçao deles
-
-            if (this._id == userData._id) { // checa se o id encontrado é o id que ta sendo procurado
-
-                users.splice(index, 1); // splice metodo nativo do js vai receber como parametro qual index que vai ser removido e a quantidade de itens, nesse caso, vai excluir 1 item do index "index"
-
-            }
-
-        });
-
-        localStorage.setItem("users", JSON.stringify(users));
-
+        return HttpRequest.delete(`/users/${this.id}`);
     }
 }
